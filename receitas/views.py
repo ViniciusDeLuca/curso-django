@@ -1,7 +1,11 @@
 from django.shortcuts import render
-
+from gerar_receitas import gerar_receita_ficticia
 def home(request):
-    receita = 'Bolo de morango'
     return render(request, 'paginas/home.html', context={
-        'receita': receita
+        'receitas': [gerar_receita_ficticia() for _ in range(18)],
+    })
+
+def receitaDetail(request, id):
+    return render(request, 'paginas/receita-detail.html', context={
+        'receita': gerar_receita_ficticia()
     })

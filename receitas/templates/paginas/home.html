@@ -1,14 +1,11 @@
-{% include 'layouts/head.html' %}
-<body>
-    <header class="main-header-container">
-        <div class="main-header container">
-            <h1>
-                <a class="main-logo" href="/">
-                    <i class="fas fa-utensils main-logo-icon"></i>
-                    <span class="main-logo-text">Recipes</span>
-                </a>
-            </h1>
-        </div>
-    </header>
-</body>
-</html>
+{% extends 'global/base.html' %}
+
+{% block title %}Página inicial{% endblock title %}
+
+{% block content %}
+    <div class="main-content main-content-list container">
+        {% for receitas in receita %}
+            {% include 'layouts/receita.html' %}
+        {% endfor %}
+    </div>
+{% endblock content %}
