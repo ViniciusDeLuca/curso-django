@@ -41,5 +41,4 @@ def gerar_receita_ficticia():
 
 # Gera o arquivo com o número desejado de receitas
 if __name__ == "__main__":
-    from pprint import pprint
-    pprint(gerar_receita_ficticia())
+    gerar_receita_ficticia()
