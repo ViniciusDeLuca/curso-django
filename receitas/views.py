@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from gerar_receitas import gerar_receita_ficticia
+from utils.receitas.factory import gerar_receita_ficticia
 from pprint import pprint
 
 def home(request):
