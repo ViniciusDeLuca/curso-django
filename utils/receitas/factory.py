@@ -11,6 +11,7 @@ fake = Faker()
 # Função para gerar uma entrada de receita fictícia
 def gerar_receita_ficticia():
     return {
+        'id' : fake.random_number(fix_len=True),
         'titulo': fake.sentence(nb_words=6),
         'descricao': fake.sentence(nb_words=12),
         'tempo_preparo': fake.random_number(digits=2, fix_len=True),
@@ -18,7 +19,7 @@ def gerar_receita_ficticia():
         'rendimento': fake.random_number(digits=2, fix_len=True),
         'unidade_rendimento': 'Porção',
         'etapas_preparo': fake.text(3000),
-        'data_criacao': fake.date_time().isoformat(),
+        'data_criacao': fake.date_time(),
         'autor': {
             'nome': fake.first_name(),
             'sobrenome': fake.last_name()

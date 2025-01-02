@@ -1,6 +1,8 @@
 <div class="recipe recipe-list-item">
     <div class="recipe-cover">
-        <img src="{{receita.capa.url}}" alt="Temporário">
+        <a href="{% url 'receita_detalhe' receita.id %}">
+            <img src="{{receita.capa.url}}" alt="Temporário">
+        </a>
     </div>
     <div class="recipe-title-container">
         <h2 class="recipe-title">{{ receita.titulo }}</h2>
@@ -12,7 +14,7 @@
         </span>
         <span class="recipe-author-item">
             <i class="fas fa-calendar-alt"></i>
-            {{ receita.data_criacao }}
+            {{ receita.data_criacao|date:"d/m/Y" }} às {{ receita.data_criacao|date:"H:i" }}
         </span>
         <span class="recipe-author-item">
             <a href="/recipes/category/cafe-da-manha/">
@@ -28,7 +30,7 @@
         <div class="recipe-meta recipe-preparation">
             <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> Preparo</h3>
             <div class="recipe-meta-text">
-                {{receita.tempo_preparo}}
+                {{receita.tempo_preparo}} {{ receita.unidade_tempo_preparo }}
             </div>
         </div>
         <div class="recipe-meta recipe-servings">
@@ -38,10 +40,18 @@
             </div>
         </div>
     </div>
-    <footer class="recipe-footer">
-        <a class="recipe-read-more button button-dark button-full-width" href="/receita/3/">
-            <i class="fas fa-eye"></i>
-            <span>ver mais...</span>
-        </a>
-    </footer>
+    {% if pagina_detalhe is not True %}
+        <footer class="recipe-footer">
+            <a class="recipe-read-more button button-dark button-full-width" href="{% url 'receita_detalhe' receita.id %}">
+                <i class="fas fa-eye"></i>
+                <span>ver mais...</span>
+            </a>
+        </footer>
+    {% endif %}
+
+    {% if pagina_detalhe is True %}
+        <div class="preparion-steps">
+            {{ receita.etapas_preparo|linebreaksbr }}
+        </div>
+    {% endif %}
 </div>
