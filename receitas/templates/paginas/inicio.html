@@ -6,6 +6,10 @@
     <div class="main-content main-content-list container">
         {% for receita in receitas %}
             {% include 'layouts/receita.html' %}
+        {% empty %}
+            <div class="center">
+                <h1>Não foram encontradas receitas</h1>
+            </div>
         {% endfor %}
     </div>
 {% endblock content %}
