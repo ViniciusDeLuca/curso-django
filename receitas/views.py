@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 from utils.receitas.factory import gerar_receita_ficticia
 from pprint import pprint
 from receitas.models import Receita, Categoria
@@ -12,7 +12,9 @@ def inicio(request):
     })
 
 def receitaDetalhe(request, id):
-    receita = Receita.objects.filter(id=id).first()
+    receita = get_object_or_404(
+        Receita.objects.filter(id=id).first()
+    )
 
     return render(request, 'paginas/receita-detalhe.html', context={
         'receita': receita,
