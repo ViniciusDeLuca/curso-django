@@ -80,11 +80,11 @@ WSGI_APPLICATION = 'cursoDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'projeto-django',
-        'USER': 'postgres',
-        'PASSWORD': 'Deluc@123',
-        'HOST': '127.0.0.1',
-        'PORT': '5433',
+        'NAME': config('DATABASE_NAME', default='projeto-django'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST', default='localhost'),
+        'PORT': config('DATABASE_PORT', default='5432'),
     }
 }
 
