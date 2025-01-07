@@ -141,6 +141,10 @@ h6 {
   padding-top: 0;
 }
 
+.main-content-container{
+  margin-top: 5rem;
+}
+
 .main-content-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));

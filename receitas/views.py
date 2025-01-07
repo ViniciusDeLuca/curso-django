@@ -13,7 +13,7 @@ def inicio(request):
 
 def receitaDetalhe(request, id):
     receita = get_object_or_404(
-        Receita.objects.filter(id=id).first()
+        Receita, id=id
     )
 
     return render(request, 'paginas/receita-detalhe.html', context={
