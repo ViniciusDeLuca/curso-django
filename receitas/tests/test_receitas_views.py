@@ -37,6 +37,32 @@ class ReceitaViewsTest(ReceitaBaseTest):
         view = resolve(reverse('receitas_por_categorias', kwargs={'categoria_id': 1}))
         self.assertIs(view.func, views.receitaCategoria)
         
+    def test_categoria_receita_mostra_a_receita_correta(self):
+        titulo = 'Titulo para essa receita'
+        self.cria_receita(titulo=titulo)
+        
+        response = self.client.get(
+            reverse('receitas_por_categorias',
+                    kwargs={'categoria_id': 1}
+                    )
+        )
+        conteudo = response.content.decode('utf-8')
+        
+        self.assertIn(titulo, conteudo)
+        
+    def test_detalhe_receita_mostra_a_receita_correta(self):
+        titulo = 'Titulo para essa receita'
+        self.cria_receita(titulo=titulo)
+        
+        response = self.client.get(
+            reverse('receita_detalhe',
+                    kwargs={'id': 1}
+                    )
+        )
+        conteudo = response.content.decode('utf-8')
+        
+        self.assertIn(titulo, conteudo)
+        
     # rodar somente se tiver algo inserido no banco temporario
     # def test_categoria_view_retorna_status_200_ok(self):
     #     response = self.client.get(reverse('receitas_por_categorias', kwargs={'categoria_id': 2}))
