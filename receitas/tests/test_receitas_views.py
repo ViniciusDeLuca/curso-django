@@ -63,6 +63,18 @@ class ReceitaViewsTest(ReceitaBaseTest):
         
         self.assertIn(titulo, conteudo)
         
+    def test_inicio_template_não_lista_receitas_nao_publicadas(self):
+        self.cria_receita(esta_publicado=False)
+        
+        response = self.client.get(reverse('inicio'))
+        
+        conteudo = response.content.decode('utf-8')
+
+        self.assertIn(
+            'Não foram encontradas receitas',
+            conteudo
+        )
+        
     # rodar somente se tiver algo inserido no banco temporario
     # def test_categoria_view_retorna_status_200_ok(self):
     #     response = self.client.get(reverse('receitas_por_categorias', kwargs={'categoria_id': 2}))
@@ -83,6 +95,16 @@ class ReceitaViewsTest(ReceitaBaseTest):
         response = self.client.get(reverse('receitas_por_categorias', kwargs={'categoria_id': 1000}))
         self.assertEqual(response.status_code, 404)
         
+    def test_categoria_template_não_lista_receitas_nao_publicadas(self):
+        receita = self.cria_receita(esta_publicado=False)
+        
+        response = self.client.get(reverse('receitas_por_categorias',
+                                        kwargs={'categoria_id': receita.categoria.id}
+                                        ))
+        
+        self.assertEqual(
+            response.status_code, 404
+            )    
         
     def test_detalhe_receita_view_esta_correto(self):
         view = resolve(reverse('receita_detalhe', kwargs={'id': 29}))
