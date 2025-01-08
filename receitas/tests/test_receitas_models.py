@@ -1,15 +1,22 @@
-from django.test import TestCase
-from receitas.models import Receita, Categoria
 from django.contrib.auth.models import User
-
-class ReceitaModelsTest(TestCase):
+from .test_receita_base import ReceitaBaseTest
+from django.core.exceptions import ValidationError
+class ReceitaModelsTest(ReceitaBaseTest):
+    def setUp(self):
+        self.receita = self.cria_receita()
+        return super().setUp()
+    
+    def test_titulo_receita_gera_erro_se_excender_tamanho(self):
+        self.receita.titulo = 'A' * 121
+        with self.assertRaises(ValidationError):
+            self.receita.full_clean()
     
     def test_receita_model(self):
         # Criação de instância de Categoria
-        categoria = Categoria.objects.create(nome="Sobremesas")
+        categoria = self.cria_categoria
         
         # Criação de instância de User
-        autor = User.objects.create_user(username="autor_teste", password="senha123")
+        autor = self.cria_autor
         
         # Criação de instância de Receita
         receita = Receita.objects.create(
