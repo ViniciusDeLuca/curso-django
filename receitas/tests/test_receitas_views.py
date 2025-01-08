@@ -3,8 +3,6 @@ from receitas import views
 from receitas.tests.test_receita_base import ReceitaBaseTest
 
 class ReceitaViewsTest(ReceitaBaseTest):
-    def tearDown(self):
-        return super().tearDown()
     
     def test_inicio_view_esta_correto(self):
         view = resolve(reverse('inicio'))
@@ -25,7 +23,8 @@ class ReceitaViewsTest(ReceitaBaseTest):
             response.content.decode('utf-8')
         )
         
-    def test_inicio_template_carrega_receitas(self):       
+    def test_inicio_template_carrega_receitas(self):
+        self.cria_receita()
         response = self.client.get(reverse('inicio'))
         
         response_content = response.content.decode('utf-8')
