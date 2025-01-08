@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from .test_receita_base import ReceitaBaseTest
 from django.core.exceptions import ValidationError
+from parameterized import parameterized
+from receitas.models import Receita
 class ReceitaModelsTest(ReceitaBaseTest):
     def setUp(self):
         self.receita = self.cria_receita()
@@ -51,3 +53,15 @@ class ReceitaModelsTest(ReceitaBaseTest):
 
         # Verifica o método __str__
         self.assertEqual(str(receita), "Bolo de Cenoura")
+        
+    @parameterized.expand([
+        ('titulo', 120),
+        ('descricao', 165),
+        ('unidade_tempo', 30),
+        ('unidade_preparo', 50)
+    ])
+    def test_tamanho_maximo_dos_campos_de_receita(self, campo, tamanho_maximo):
+        setattr(self.receita, campo, 'A' * (tamanho_maximo + 1))
+        with self.assertRaises(ValidationError):
+            self.receita.full_clean()
+        
