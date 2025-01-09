@@ -26,7 +26,7 @@ class Receita(models.Model):
     etapas_preparo_is_html = models.BooleanField(default=False)
     esta_publicado = models.BooleanField(default=True)
     capa = models.ImageField(upload_to='receitas/capas/%Y/%m/%d/', blank=True, default='')
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, default=None)
