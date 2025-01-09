@@ -65,3 +65,9 @@ class ReceitaModelsTest(ReceitaBaseTest):
         with self.assertRaises(ValidationError):
             self.receita.full_clean()
         
+    def test_representacao_do_model_receita_em_string(self):
+        self.receita.titulo = 'Tapioca de queijo'
+        self.receita.full_clean()
+        self.receita.save()
+        
+        self.assertEqual(str(self.receita), 'Tapioca de queijo')
