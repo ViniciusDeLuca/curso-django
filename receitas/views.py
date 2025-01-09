@@ -3,6 +3,7 @@ from utils.receitas.factory import gerar_receita_ficticia
 from pprint import pprint
 from receitas.models import Receita, Categoria
 from django.http import Http404
+from django.db.models import Q
 
 def inicio(request):
     receitas = Receita.objects.all().order_by('-id')
@@ -37,8 +38,13 @@ def busca(request):
     valor_busca = request.GET.get('q', '').strip()
     if not valor_busca:
         raise Http404()
+    
+    receitas = Receita.objects.filter(
+        Q(titulo__icontains=valor_busca) | Q(descricao__icontains=valor_busca)
+    )
     return render(request, 'paginas/busca.html', context={
         'pagina_detalhe': False,
         'titulo_pagina': f'Busca por "{valor_busca}" | ',
-        'valor_busca': valor_busca
+        'valor_busca': valor_busca,
+        'receitas':receitas
     })
