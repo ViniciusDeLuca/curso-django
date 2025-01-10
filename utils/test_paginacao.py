@@ -7,20 +7,20 @@ class PaginacaoTest(TestCase):
             intervalo_paginas=list(range(1,21)),
             qt_paginas=4,
             pagina_atual=1
-        )
+        )['paginacao']
         self.assertEqual([1,2,3,4], paginacao)        
         
         paginacao = cria_paginacao(
             intervalo_paginas=list(range(1,21)),
             qt_paginas=4,
             pagina_atual=2
-        )
+        )['paginacao']
         self.assertEqual([1,2,3,4], paginacao)
         
         paginacao = cria_paginacao(
             intervalo_paginas=list(range(1,21)),
             qt_paginas=4,
             pagina_atual=3
-        )
+        )['paginacao']
         
         self.assertEqual([2,3,4,5], paginacao)
