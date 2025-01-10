@@ -24,3 +24,32 @@ class ReceitaViewsTest(ReceitaBaseTest):
             'Busca por "teste"',
             response.content.decode('utf-8')
         )
+    
+    def test_busca_receita_consegue_pesquisar_por_titulo(self):
+        titulo1 = 'Receita Um'
+        titulo2 = 'Receita Dois'
+        
+        receita1 = self.cria_receita(
+            slug='um',
+            titulo=titulo1,
+            dados_autor={'username': 'um'}
+        )
+        receita2 = self.cria_receita(
+            slug='dois',
+            titulo=titulo2,
+            dados_autor={'username': 'dois'}
+        )
+        
+        url = reverse('busca')
+        response1 = self.client.get(f'{url}?q={titulo1}')
+        response2 = self.client.get(f'{url}?q={titulo2}')
+        response_ambas = self.client.get(f'{url}?q=Receita')
+        
+        self.assertIn(titulo1,[receita.titulo for receita in response1.context['receitas']])
+        self.assertNotIn(titulo2,[receita.titulo for receita in response1.context['receitas']])
+        
+        self.assertIn(titulo2,[receita.titulo for receita in response2.context['receitas']])
+        self.assertNotIn(titulo1,[receita.titulo for receita in response2.context['receitas']])
+        
+        self.assertIn(titulo1,[receita.titulo for receita in response_ambas.context['receitas']])
+        self.assertIn(titulo2,[receita.titulo for receita in response_ambas.context['receitas']])
