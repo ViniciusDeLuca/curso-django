@@ -4,13 +4,25 @@ from pprint import pprint
 from receitas.models import Receita, Categoria
 from django.http import Http404
 from django.db.models import Q
+from django.core.paginator import Paginator
+from utils.paginacao import cria_paginacao
 
 def inicio(request):
     receitas = Receita.objects.all().order_by('-id')
 
+    current_page = request.GET.get('page', 3)
+    paginator = Paginator(receitas, 3)
+    page_obj = paginator.get_page(current_page)
+    
+    intervalo_paginacao = cria_paginacao(
+        paginator.page_range,
+        4,
+        int(current_page)
+    )
     return render(request, 'paginas/inicio.html', context={
-        'receitas': receitas,
-        'pagina_detalhe': False
+        'receitas': page_obj,
+        'pagina_detalhe': False,
+        'intervalo_paginacao': intervalo_paginacao
     })
 
 def receitaDetalhe(request, id):
