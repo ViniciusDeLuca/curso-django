@@ -1,6 +1,8 @@
 {
     // "window.zoomLevel": 0.4,
     "editor.fontSize": 16,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
     "python.languageServer": "Pylance", // ms-python.vscode-pylance
     "python.testing.unittestEnabled": false, // ms-python.python
     "python.testing.pytestEnabled": true,
@@ -16,11 +18,13 @@
     "[python]": {
       "editor.defaultFormatter": "ms-python.python", // ms-python.python
       "editor.tabSize": 4,
+      "editor.fontFamily": "Fira Code",
+      "editor.fontLigatures": true,
       "editor.insertSpaces": true,
       "editor.formatOnSave": true,
       "editor.formatOnType": true,
       "editor.codeActionsOnSave": {
-        "source.organizeImports": true
+        "source.organizeImports": "explicit"
       }
     },
     "[html]": {
