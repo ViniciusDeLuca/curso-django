@@ -1,20 +1,20 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404
-from utils.receitas.factory import gerar_receita_ficticia
-from pprint import pprint
-from receitas.models import Receita, Categoria
+from receitas.models import Receita
 from django.http import Http404
 from django.db.models import Q
-from django.core.paginator import Paginator
 from utils.paginacao import cria_paginacao
+import os
+
+PER_PAGE = os.environ.get('PER_PAGE', 3)
 
 def inicio(request):
     receitas = Receita.objects.all().order_by('-id')
 
-    page_obj, intervalo_paginacao = cria_paginacao(request,receitas, 3)
+    page_obj, intervalo_paginacao = cria_paginacao(request,receitas, PER_PAGE)
     return render(request, 'paginas/inicio.html', context={
         'receitas': page_obj,
         'pagina_detalhe': False,
-        'intervalo_paginacao': intervalo_paginacao,
+        'intervalo_paginacao': intervalo_paginacao
     })
 
 def receitaDetalhe(request, id):
@@ -32,7 +32,7 @@ def receitaCategoria(request, categoria_id):
         Receita.objects.filter(categoria__id=categoria_id).order_by('-id')
     )
     
-    page_obj, intervalo_paginacao = cria_paginacao(request,receitas, 3)
+    page_obj, intervalo_paginacao = cria_paginacao(request,receitas, PER_PAGE)
     
     return render(request, 'paginas/receita-categoria.html', context={
         'receitas': page_obj,
@@ -49,7 +49,7 @@ def busca(request):
     receitas = Receita.objects.filter(
         Q(titulo__icontains=valor_busca) | Q(descricao__icontains=valor_busca)
     )
-    page_obj, intervalo_paginacao = cria_paginacao(request,receitas, 3)
+    page_obj, intervalo_paginacao = cria_paginacao(request,receitas, PER_PAGE)
     
     return render(request, 'paginas/busca.html', context={
         'pagina_detalhe': False,
