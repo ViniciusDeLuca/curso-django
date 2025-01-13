@@ -3,6 +3,7 @@
 {% block title %}Página inicial{% endblock title %}
 
 {% block content %}
+    {% include 'paginas/layouts/mensagem.html' %}
     <div class="main-content main-content-list container">
         {% for receita in receitas %}
             {% include 'layouts/receita.html' %}
