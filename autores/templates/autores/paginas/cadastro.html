@@ -1,1 +1,37 @@
-{{form}}
+{% extends 'global/base.html' %}
+
+{% block title %}Cadastro{% endblock title %}
+
+{% block content %}
+    {% include 'paginas/layouts/mensagem.html' %}
+
+    <div class="main-content center container">
+        <h1>Cadastro</h1>
+    </div>
+    <div class="main-content container">
+        <form action="{% url 'autores:cadastro' %}" method="post">
+            <div class="form-content form-content-grid">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div class="form-group">    
+                        <label for="{{field.id_for_label}}">{{field.label}}</label>
+                        {{field}}
+                        {% if field.help_text %}
+                            <p class="help_text">{{field.help_text}}</p>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <p class="error" style="color: red;">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+            </div>
+            <div class="form-content form-content-grid">
+                <div class="form-group">
+                    <button type="submit">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
