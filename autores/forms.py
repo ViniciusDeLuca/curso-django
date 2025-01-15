@@ -1,3 +1,4 @@
+import re
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -8,6 +9,15 @@ def add_attr(field, attr, value):
 
 def add_placeholder(field, value):
     add_attr(field, 'placeholder', value)
+    
+def validar_senha_forte(password):
+    regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
+    
+    if not regex.match(password):
+        raise ValidationError((
+            'A senha deverá possuir 1 caractere maiúsculo, 1 caractere '
+            'minúsculo, 1 símbolo especial (Ex: @, !, &) e ao menos 8 caracteres'
+        ), code='Invalid')
 
 class CadastroForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -28,7 +38,8 @@ class CadastroForm(forms.ModelForm):
         help_text=(
             'A senha deverá possuir 1 caractere maiúsculo, 1 caractere '
             'minúsculo, 1 símbolo especial (Ex: @, !, &) e ao menos 8 caracteres'
-        )
+        ),
+        validators=[validar_senha_forte]
     )
     confirm_password = forms.CharField(
         required=True,
